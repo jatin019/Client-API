@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {insertUser, getUserByEmail} = require("../model/user/User.model")
 const {hashPassword, comparePassword} = require("../helpers/bcrypt.helper");
-const { creatAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
+const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
 
 router.all("/", (req, res, next) => {
     //res.json({ message: "Return from user router" });
@@ -70,9 +70,10 @@ if( !email || !password ){
         console.log("Invalid credentials");
         return res.json({ status: "error", message: "Invalid credentials!" });
     }
-    
-    const accessJWT = await creatAccessJWT(user.email)
+    console.log(typeof user._id);
+    const accessJWT = await createAccessJWT(user.email, `${user._id}`)
     const refreshJWT = await createRefreshJWT(user.email)
+    
     res.json({ status: "success", message: "Login successfully!", accessJWT, refreshJWT});
 } catch (error) {
     console.log("Error during login:", error);
