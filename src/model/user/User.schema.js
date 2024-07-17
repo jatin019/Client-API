@@ -32,7 +32,6 @@ const UserSchema = new Schema({
         minlength:8,
         maxlength: 100,
         required: true
-<<<<<<< HEAD
     },
     
     refreshJWT: {
@@ -47,10 +46,6 @@ const UserSchema = new Schema({
             default: Date.now()
     },
 }
-=======
-    }
-    
->>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 });
 
 module.exports = {

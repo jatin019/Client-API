@@ -10,7 +10,6 @@ const insertUser = userObj =>{
 
 }
 
-<<<<<<< HEAD
 const getUserByEmail = (email) =>{
     if (!email) return Promise.reject(new Error("Email is required"));
 
@@ -43,8 +42,3 @@ insertUser,
 getUserByEmail,
 storeUserRefreshJWT,
 }; 
-=======
-module.exports = {
-insertUser,
-};
->>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
