@@ -2,17 +2,25 @@ const express = require("express");
 const {route} = require("./ticket.router");
 const router = express.Router();
 
+<<<<<<< HEAD
 const {insertUser, getUserByEmail} = require("../model/user/User.model")
 const {hashPassword, comparePassword} = require("../helpers/bcrypt.helper");
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
+=======
+const {insertUser} = require("../model/user/User.model")
+const {hashPassword} = require("../helpers/bcrypt.helper")
+>>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 
 router.all("/", (req, res, next) => {
     //res.json({ message: "Return from user router" });
     next();
 });
 
+<<<<<<< HEAD
 // Create new user router
 
+=======
+>>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 router.post('/',async(req, res ) => {
     const {name,company,address,phone,email,password } = req.body;
 
@@ -40,6 +48,7 @@ router.post('/',async(req, res ) => {
         res.json({ message: "error", message: error.message });
     }
 });
+<<<<<<< HEAD
 
 // User sign in router
 router.post("/login", async (req, res) => {
@@ -82,3 +91,6 @@ if( !email || !password ){
 });
 
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60

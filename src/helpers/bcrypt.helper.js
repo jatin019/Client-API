@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+<<<<<<< HEAD
 
 const hashPassword =  (plainpassword) => {
     return new Promise((resolve) => {
@@ -16,9 +17,21 @@ const comparePassword = async (plainPass, passFromDb) => {
         })
     })
     
+=======
+const saltRounds = 10;
+
+const hashPassword = plainPassword => {
+    return new Promise(resolve => {
+        resolve(bcrypt.hashSync(plainPassword,saltRounds))
+
+});
+>>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 };
 
 module.exports = {
     hashPassword,
+<<<<<<< HEAD
     comparePassword,
+=======
+>>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 };
