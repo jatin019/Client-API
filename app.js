@@ -12,11 +12,7 @@ const port = process.env.PORT || 3001;
 console.log('MongoDB URL:', process.env.MONGO_URL);
 
 // API security
-<<<<<<< HEAD
 //app.use(helmet());
-=======
-app.use(helmet());
->>>>>>> 3aa01c4108e343d99892295607fa0a1e1dcede60
 
 // Handle CORS error
 app.use(cors());
