@@ -70,9 +70,9 @@ if( !email || !password ){
         console.log("Invalid credentials");
         return res.json({ status: "error", message: "Invalid credentials!" });
     }
-    console.log(typeof user._id);
+    
     const accessJWT = await createAccessJWT(user.email, `${user._id}`)
-    const refreshJWT = await createRefreshJWT(user.email)
+    const refreshJWT = await createRefreshJWT(user.email, `${user._id}`)
     
     res.json({ status: "success", message: "Login successfully!", accessJWT, refreshJWT});
 } catch (error) {

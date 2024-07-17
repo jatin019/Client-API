@@ -15,7 +15,7 @@ const client = redis.createClient(process.env.REDIS_URL);
 
 
 const setJWT =(key,value)=>{
-    console.log(typeof key, typeof value)
+    
 
     return new Promise((resolve,reject)=>{
 
