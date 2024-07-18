@@ -23,7 +23,7 @@ const setJWT =(key,value)=>{
 
             client.set(key,value,(err,res)=>{
                 if(err) reject(err);
-                resolve(err);
+                resolve(res);
             });
 
         } catch(error) {
@@ -39,9 +39,9 @@ const getJWT =(key)=>{
 
         try{
 
-            client.set(key,(err,res)=>{
+            client.get(key,(err,res)=>{
                 if(err) reject(err);
-                resolve(err);
+                resolve(res);
             });
 
         } catch(error) {
