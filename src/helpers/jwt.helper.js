@@ -8,10 +8,12 @@ const createAccessJWT = async (email, _id) => {
       expiresIn: '1d',
     });
 
-    setJWT(accessJWT, _id);
-    return Promise.resolve(accessJWT);
+    await setJWT(accessJWT, _id);
+    console.log('Access JWT set in Redis:', accessJWT);
+    return accessJWT;
   } catch (error) {
-    return Promise.reject(error);
+    console.error('Error creating access JWT:', error);
+    throw error;
   }
 };
 

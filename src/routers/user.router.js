@@ -12,23 +12,20 @@ router.all('/', (req, res, next) => {
 
 // Get user profile router
 router.get('/', userAuth, (req, res) => {
-      //this data coming from db 
+  // The user object is now available in req.user
+  const { _id, name, company, address, phone, email } = req.user;
 
-      const user = {
-        
-        "name": "ravi",
-        "company":"Company name",
-        "address": "Dharuhera",
-        "phone": "123456789",
-        "email": "ravi999@gmail.com",
-        "password": "ravi123"
-  
-  };
-
-  res.json({user: req.userId});
-
+  res.json({
+    user: {
+      _id,
+      name,
+      company,
+      address,
+      phone,
+      email
+    }
+  });
 });
-
 // Create new user router
 router.post('/', async (req, res) => {
   const { name, company, address, phone, email, password } = req.body;

@@ -15,6 +15,20 @@ const getUserByEmail = (email) => {
   return UserSchema.findOne({ email }).exec();
 };
 
+const getUserById = (_id) => {
+  console.log('Getting user by ID:', _id);
+  return UserSchema.findById(_id)
+    .then(user => {
+      console.log('User found:', user);
+      return user;
+    })
+    .catch(error => {
+      console.error('Error finding user:', error);
+      throw error;
+    });
+};
+
+
 
 
 const storeUserRefreshJWT = (_id, token) => {
@@ -48,6 +62,6 @@ const storeUserRefreshJWT = (_id, token) => {
 module.exports = {
   insertUser,
   getUserByEmail,  
-
+  getUserById,
   storeUserRefreshJWT,
 };
