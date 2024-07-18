@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { insertUser, getUserByEmail, getUserById } = require('../model/user/User.model');
+const { insertUser, getUserByEmail } = require('../model/user/User.model');
 const { hashPassword, comparePassword } = require('../helpers/bcrypt.helper');
 const { createAccessJWT, createRefreshJWT } = require('../helpers/jwt.helper');
 const { userAuth } = require('../middlewares/auth.middleware');
@@ -16,12 +16,12 @@ router.get('/', userAuth, (req, res) => {
 
       const user = {
         
-        "name": "jatin",
+        "name": "ravi",
         "company":"Company name",
         "address": "Dharuhera",
         "phone": "123456789",
-        "email": "manish@gmail.com",
-        "password": "manish123"
+        "email": "ravi999@gmail.com",
+        "password": "ravi123"
   
   };
 
@@ -82,8 +82,8 @@ router.post('/login', async (req, res) => {
       return res.json({ status: 'error', message: 'Invalid credentials!' });
     }
 
-    const accessJWT = await createAccessJWT(user.email, user._id.toString());
-    const refreshJWT = await createRefreshJWT(user.email, user._id.toString());
+    const accessJWT = await createAccessJWT(user.email, `${user._id}`)
+    const refreshJWT = await createRefreshJWT(user.email, `${user._id}`);
 
     res.json({ status: 'success', message: 'Login successfully!', accessJWT, refreshJWT });
   } catch (error) {

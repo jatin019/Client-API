@@ -7,7 +7,7 @@ Content-Type: application/json
     "company":"Company name",
     "address": "Dharuhera",
     "phone": "123456789",
-    "email": "ravi@gmail.com",
+    "email": "ravi9999@gmail.com",
     "password": "ravi123"
 }
 ### User sign in endpoint 
@@ -16,9 +16,14 @@ Content-Type: application/json
 
 {
 
-    "email": "manish@gmail.com",
-    "password": "manish123"
+    "email": "ravi9999@gmail.com",
+    "password": "ravi123"
 }
+
+
 ### Get a user profile endpoint 
 GET http://localhost:3001/v1/user
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmlzaEBnbWFpbC5jb20iLCJpYXQiOjE3MjEyNDA1MjMsImV4cCI6MTcyMTI0NDA2M30.s2Vxoff2aKUQFAVArM841gVrsyq14I0VAhW5mu1JqSw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmk5OTlAZ21haWwuY29tIiwiaWF0IjoxNzIxMzA0NTY0LCJleHAiOjE3MjEzOTA5NjR9.-X_aJis9EsGAHTuXACJHJ-AsbkAJEHAGBW4GpRQTvT8
+
+
+

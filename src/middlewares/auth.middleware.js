@@ -12,6 +12,7 @@ const userAuth = async (req, res, next) => {
   if (decoded.email) {
     // 2. Check if JWT exists in Redis
     const userId = await getJWT(authorization);
+    console.log(userId);
 
     if (!userId) {
       return res.status(403).json({ message: 'Forbidden: ID not found' });
