@@ -5,11 +5,12 @@ const {
   insertUser,
   getUserByEmail,
   getUserById,
+  updatePassword
 } = require("../model/user/User.model");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
 const { userAuth } = require("../middlewares/auth.middleware");
-const {setPasswordResetPin} = require("../model/resetPin/RestPin.model");
+const {setPasswordResetPin, getPinByEmailPin, deletePin} = require("../model/resetPin/RestPin.model");
 const { emailProcessor } = require("../helpers/email.helper");
 
 router.all("/", (req, res, next) => {
@@ -131,7 +132,7 @@ router.post("/reset-password", async (req, res) => {
 
     if (user && user._id) {
       const setPin = await setPasswordResetPin(email);
-      const result = await emailProcessor(email, setPin.pin);
+       result =  await emailProcessor({email, pin: setPin.pin, type:"request-new-password"});
 
       if (result && result.messageId) {
         return res.json({
@@ -157,6 +158,47 @@ router.post("/reset-password", async (req, res) => {
       message: "Unable to process your request. Please try again later."
     });
   }
+});
+
+
+router.patch('/reset-password', async (req, res) => {
+
+  const { email, pin, newPassword } = req.body
+
+  const getPin = await getPinByEmailPin(email, pin)
+
+  // validate pin
+  if(getPin._id){
+
+    const dbDate = getPin.addedAt
+    const expiresIn = 1
+
+    let expDate = dbDate.setDate(dbDate.getDate() + expiresIn) 
+
+    const today = new Date()
+    
+    if(today > expDate){
+      res.json({status:"error", message: "Invalid or expired pin"})
+
+  }
+
+  const hashedPass = await hashPassword(newPassword);
+
+  const user = await updatePassword(email, hashedPass);
+
+  if(user._id){
+
+    // send email notification
+
+    await emailProcessor({email, type:"password-update-success"});
+    deletePin(email, pin)
+
+    return res.json({status:"success", message:"Your password has been updated"})
+  }
+}
+
+  res.json({status:"error", message: "Unable to update password. Please try again later."})
+
 });
 
 module.exports = router;

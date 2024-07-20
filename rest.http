@@ -17,7 +17,7 @@ Content-Type: application/json
 {
 
     "email": "ravi@gmail.com",
-    "password": "ravi123"
+    "password": "password1"
 }
 
 
@@ -33,13 +33,25 @@ GET http://localhost:3001/v1/tokens
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNDc4OTA2LCJleHAiOjE3MjQwNzA5MDZ9.zHj4lYNbOUszTbwiqOpQUsHPx7adxIJaoW3S7uEQNvc
 
 
-### Password reset endpoint
+### Password reset request endpoint
 POST http://localhost:3001/v1/user/reset-password
 Content-Type: application/json
 
 {
 
     "email": "ravi@gmail.com"
+  
+}
+
+### Updated new password endpoint
+PATCH http://localhost:3001/v1/user/reset-password
+Content-Type: application/json
+
+{
+
+    "email": "ravi@gmail.com",
+    "pin" : "036006",
+    "newPassword" : "password1"
   
 }
 

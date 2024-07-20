@@ -32,9 +32,13 @@ const send =  (info) => {
 
   
 }
-const emailProcessor = (email, pin) => {
+const emailProcessor = ({email, pin, type}) => {
+    let info =''
 
-    const info = {
+    switch (type) {
+        case "request-new-password":
+            
+     info = {
         from: '"TMS Company" <deontae.pfannerstill@ethereal.email>', // sender address
         to: email, // list of receivers
         subject: "Password reset Pin", // Subject line
@@ -47,6 +51,38 @@ const emailProcessor = (email, pin) => {
 
     }
     send(info)
+
+
+        break;
+
+        case "password-update-success":
+             info = {
+                from: '"TMS Company" <deontae.pfannerstill@ethereal.email>', // sender address
+                to: email, // list of receivers
+                subject: "Password updated", // Subject line
+                text: "Your new password has been updated", // plain text body
+                html: `<b>Hello </b>
+                
+                <p>Your new password has been updated </p>`, // html body
+        
+            }
+            send(info)
+            break;
+
+
+    default:
+      break;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }
