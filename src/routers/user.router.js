@@ -10,6 +10,7 @@ const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
 const { userAuth } = require("../middlewares/auth.middleware");
 const {setPasswordResetPin} = require("../model/resetPin/RestPin.model");
+const { emailProcessor } = require("../helpers/email.helper");
 
 router.all("/", (req, res, next) => {
   next();
@@ -125,19 +126,37 @@ router.post("/login", async (req, res) => {
 router.post("/reset-password", async (req, res) => {
   const { email } = req.body;
 
-  const user = await getUserByEmail(email);
+  try {
+    const user = await getUserByEmail(email);
 
-  if (user && user._id) {
+    if (user && user._id) {
+      const setPin = await setPasswordResetPin(email);
+      const result = await emailProcessor(email, setPin.pin);
 
-    // create //2. check if user exist for the email
-    const setPin = await setPasswordResetPin(email)
-    res.json(setPin)
+      if (result && result.messageId) {
+        return res.json({
+          status: "success",
+          message: "If the email exists in our database, the password reset pin will be sent shortly."
+        });
+      } else {
+        // Log the error, but don't reveal it to the user
+        console.error("Failed to send email:", result);
+      }
+    }
+
+    // Always return the same message whether the user exists or not
+    return res.json({
+      status: "success",
+      message: "If the email exists in our database, the password reset pin will be sent shortly."
+    });
+
+  } catch (error) {
+    console.error("Error in reset-password:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "Unable to process your request. Please try again later."
+    });
   }
-  // res.json({
-  //   status: "error",
-  //   message:
-  //     "If the email is exist in our database, the password reset pin will be sent shortly.",
-  // });
 });
 
 module.exports = router;
