@@ -12,13 +12,14 @@ const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
 const { userAuth } = require("../middlewares/auth.middleware");
 const {setPasswordResetPin, getPinByEmailPin, deletePin} = require("../model/resetPin/RestPin.model");
 const { emailProcessor } = require("../helpers/email.helper");
+const {resetPassReqValidation, updatePassReqValidation} = require("../middlewares/formValidation.middleware");
 
 router.all("/", (req, res, next) => {
   next();
 });
 
 // Get user profile router
-router.get("/", userAuth, (req, res) => {
+router.get("/", userAuth, (req, res, next) => {
   // The user object is now available in req.user
   const { _id, name, company, address, phone, email, refreshJWT, password } =
     req.user;
@@ -124,7 +125,7 @@ router.post("/login", async (req, res) => {
 // C. Server side form validation
 //  1. create middleware to validate from data
 
-router.post("/reset-password", async (req, res) => {
+router.post("/reset-password", resetPassReqValidation, async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -161,7 +162,7 @@ router.post("/reset-password", async (req, res) => {
 });
 
 
-router.patch('/reset-password', async (req, res) => {
+router.patch('/reset-password', updatePassReqValidation, async (req, res) => {
 
   const { email, pin, newPassword } = req.body
 
