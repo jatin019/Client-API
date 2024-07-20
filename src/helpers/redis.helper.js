@@ -22,7 +22,18 @@ const getJWT = (key) => {
   });
 };
 
+const deleteJWT = (key) => {
+  try {
+    redisClient.del(key);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   setJWT,
   getJWT,
+  deleteJWT,
+
 };

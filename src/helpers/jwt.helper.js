@@ -5,7 +5,7 @@ const { storeUserRefreshJWT } = require('../model/user/User.model');
 const createAccessJWT = async (email, _id) => {
   try {
     const accessJWT = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: '1d',
+      expiresIn: '1m',
     });
 
     await setJWT(accessJWT, _id);
@@ -37,9 +37,17 @@ const verifyAccessJWT = (userJWT) => {
     return Promise.resolve(error);
   }
 };
+const verifyRefreshJWT = (userJWT) => {
+  try {
+    return Promise.resolve(jwt.verify(userJWT, process.env.JWT_REFRESH_SECRET));
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};
 
 module.exports = {
   createAccessJWT,
   createRefreshJWT,
   verifyAccessJWT,
+  verifyRefreshJWT,
 };
