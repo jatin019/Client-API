@@ -148,7 +148,7 @@ router.patch("/close-ticket/:_id", userAuth, async (req, res) => {
   });
 
   //Delete
-router.delete("/close-ticket/:_id", userAuth, async (req, res) => {
+router.delete("/:_id", userAuth, async (req, res) => {
     try {
    
       const { _id } = req.params;
