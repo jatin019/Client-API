@@ -80,10 +80,24 @@ const updateStatusClose = async ({ _id, clientId }) => {
     throw error;
   }
 };
+
+const deleteTicket = async ({ _id, clientId }) => {
+  try {
+    const result = await TicketSchema.findOneAndDelete(
+      { _id, clientId },
+      
+    );
+    return result;
+  } catch (error) {
+
+    throw error;
+  }
+};
 module.exports = {
     insertTicket,
     getTickets,
     getTicketById,
     updateClientReply,
-    updateStatusClose
+    updateStatusClose,
+    deleteTicket
 }

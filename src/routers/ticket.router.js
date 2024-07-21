@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {insertTicket, getTickets, getTicketById, updateClientReply, updateStatusClose} = require('../model/ticket/Ticket.model')
+const {insertTicket, getTickets, getTicketById, updateClientReply, updateStatusClose, deleteTicket} = require('../model/ticket/Ticket.model')
 const {userAuth} = require('../middlewares/auth.middleware')
 
 // Workflow
@@ -141,6 +141,28 @@ router.patch("/close-ticket/:_id", userAuth, async (req, res) => {
   
       return res.status(404).json({ status: "error", message: "Ticket not found or unable to update" });
   
+    } catch (error) {
+      console.error("Error in update route:", error);
+      res.status(500).json({ status: 'error', message: "Internal server error" });
+    }
+  });
+
+  //Delete
+router.delete("/close-ticket/:_id", userAuth, async (req, res) => {
+    try {
+   
+      const { _id } = req.params;
+      const clientId = req.user._id;
+  
+      const result = await deleteTicket({ _id, clientId });
+      
+      if (result) {
+        return res.json({ status: "success", message: "The ticket has been deleted", deletedTicket: result });
+      } else {
+        return res.status(404).json({ status: "error", message: "Ticket not found or you don't have permission to delete it" });
+      }
+  
+     
     } catch (error) {
       console.error("Error in update route:", error);
       res.status(500).json({ status: 'error', message: "Internal server error" });
