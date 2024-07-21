@@ -5,7 +5,8 @@ const {
   insertUser,
   getUserByEmail,
   getUserById,
-  updatePassword
+  updatePassword,
+  storeUserRefreshJWT
 } = require("../model/user/User.model");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper");
@@ -13,6 +14,7 @@ const { userAuth } = require("../middlewares/auth.middleware");
 const {setPasswordResetPin, getPinByEmailPin, deletePin} = require("../model/resetPin/RestPin.model");
 const { emailProcessor } = require("../helpers/email.helper");
 const {resetPassReqValidation, updatePassReqValidation} = require("../middlewares/formValidation.middleware");
+const {deleteJWT} = require("../helpers/redis.helper");
 
 router.all("/", (req, res, next) => {
   next();
@@ -200,6 +202,31 @@ router.patch('/reset-password', updatePassReqValidation, async (req, res) => {
 
   res.json({status:"error", message: "Unable to update password. Please try again later."})
 
+});
+
+
+// user logout and invalidate jwts
+// 1. get jwt and verify
+// 2. delete accessJWT from redis database
+// 3. delete refreshJWT from mongodb
+
+
+router.delete("/logout", userAuth, async (req, res) => {
+ 
+
+  const {authorization} = req.headers; 
+  const _id = req.user._id;
+    //2. delete accessJWT from redis database
+     deleteJWT(authorization);
+
+     // 3. delete refreshJWT from mongodb
+     const result = await storeUserRefreshJWT(_id,'')
+  
+     if(result._id){
+      return res.json({status: 'success', message: 'Loged out successfully'})
+     }
+
+  res.json({status: 'error', message: 'Unable to log out. Please try again later'});
 });
 
 module.exports = router;

@@ -55,3 +55,6 @@ Content-Type: application/json
   
 }
 
+### User logout endpoint
+DELETE http://localhost:3001/v1/user/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNTgyNjI1LCJleHAiOjE3MjE1ODM1MjV9.uCTBYYf9OLEJHMsnq6LgndbuRxm9PA3Gk2WDmiZFI6A
