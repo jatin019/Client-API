@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {insertTicket, getTickets} = require('../model/ticket/Ticket.model')
+const {insertTicket, getTickets, getTicketById} = require('../model/ticket/Ticket.model')
 const {userAuth} = require('../middlewares/auth.middleware')
 
 // Workflow
@@ -67,16 +67,19 @@ if(result._id){
 
 // Get all tickets for a specific user
 
-router.get("/", userAuth, async(req, res) => {
+router.get("/:_id", userAuth, async(req, res) => {
+    console.log(req.params)
 
     try{
+
+        const {_id} = req.params
             // retrrive new ticket data
     const { sender, subject, message } = req.body;
 
-    const userId = req.user._id;
+    const clientId = req.user._id;
 
    
-    const result = await getTickets(userId);
+    const result = await getTicketById(clientId, _id);
  
 
 
