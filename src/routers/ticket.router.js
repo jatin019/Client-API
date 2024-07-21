@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const {insertTicket} = require('../model/ticket/Ticket.model')
-
+const {insertTicket, getTickets} = require('../model/ticket/Ticket.model')
+const {userAuth} = require('../middlewares/auth.middleware')
 
 // Workflow
 // - create url endpoints
@@ -20,15 +20,19 @@ router.all("/", (req, res, next) => {
 });
 
 // create url endpoints
-
-router.post("/", async(req, res) => {
+// create new tickett
+router.post("/", userAuth, async(req, res) => {
 
     try{
             // retrrive new ticket data
     const { sender, subject, message } = req.body;
 
+    const userId = req.user._id;
+
+    
+
     const ticketObj = {
-        clientId: "66995ffa26f69a7935b59fa0",
+        clientId: userId,
         subject,
         conversations: [
             {
@@ -61,6 +65,37 @@ if(result._id){
     }
 })
 
+// Get all tickets for a specific user
+
+router.get("/", userAuth, async(req, res) => {
+
+    try{
+            // retrrive new ticket data
+    const { sender, subject, message } = req.body;
+
+    const userId = req.user._id;
+
+   
+    const result = await getTickets(userId);
+ 
+
+
+    return res.json({status: "success", result})
+
+
+
+   // insert in mongodb
+
+  
+
+
+
+    } catch(error) {
+        res.json({ status: 'error', message: error.message });
+
+
+    }
+})
 
 
 module.exports = router;
