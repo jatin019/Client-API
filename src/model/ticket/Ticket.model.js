@@ -48,9 +48,42 @@ const getTicketById = (clientId, _id) => {
         }
     })
 }
+const updateClientReply = async ({ _id, clientId }) => {
+  try {
+    const result = await TicketSchema.findOneAndUpdate(
+      { _id , clientId},
+      {
+        status: "Closed",
+        
+      },
+      { new: true }
+    );
+    return result;
+  } catch (error) {
 
+    throw error;
+  }
+};
+const updateStatusClose = async ({ _id, clientId }) => {
+  try {
+    const result = await TicketSchema.findOneAndUpdate(
+      { _id, clientId },
+      {
+        status: "Closed",
+        
+      },
+      { new: true }
+    );
+    return result;
+  } catch (error) {
+
+    throw error;
+  }
+};
 module.exports = {
     insertTicket,
     getTickets,
-    getTicketById
+    getTicketById,
+    updateClientReply,
+    updateStatusClose
 }
