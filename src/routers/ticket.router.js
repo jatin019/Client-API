@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {insertTicket, getTickets, getTicketById, updateClientReply, updateStatusClose, deleteTicket} = require('../model/ticket/Ticket.model')
 const {userAuth} = require('../middlewares/auth.middleware')
-
+const {createNewTicketValidation, replyTicketMessageValidation} = require('../middlewares/formValidation.middleware')
 // Workflow
 // - create url endpoints
 // - receive new ticket data
@@ -21,7 +21,7 @@ router.all("/", (req, res, next) => {
 
 // create url endpoints
 // create new tickett
-router.post("/", userAuth, async(req, res) => {
+router.post("/", createNewTicketValidation, userAuth, async(req, res) => {
 
     try{
             // retrrive new ticket data
@@ -107,25 +107,29 @@ router.get("/:_id", userAuth, async(req, res) => {
 
 // update reply message from client
 
-router.put("/:_id", userAuth, async (req, res) => {
-    try {
+router.put("/:_id", replyTicketMessageValidation, userAuth, async (req, res) => {
+  try {
       const { message, sender } = req.body;
       const { _id } = req.params;
-  
-      const result = await updateClientReply({ _id, message, sender });
-  
-      if (result) {
-        return res.json({ status: "success", message: "Your message has been updated" });
+      const clientId = req.user._id;
+
+      if (!_id) {
+          return res.status(400).json({ status: "error", message: "Invalid ticket ID" });
       }
-  
-      return res.status(404).json({ status: "error", message: "Ticket not found or unable to update" });
-  
-    } catch (error) {
+
+      const result = await updateClientReply({ _id, message, sender });
+
+      if (result._id) {
+          return res.json({ status: "success", message: "Your message has been updated" });
+      }
+
+      return res.status(404).json({ status: "error", message: "Ticket not found" });
+
+  } catch (error) {
       console.error("Error in update route:", error);
       res.status(500).json({ status: 'error', message: "Internal server error" });
-    }
-  });
-
+  }
+});
   // Update ticket status to close
 router.patch("/close-ticket/:_id", userAuth, async (req, res) => {
     try {

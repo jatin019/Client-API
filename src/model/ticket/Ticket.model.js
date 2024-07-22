@@ -48,12 +48,15 @@ const getTicketById = (clientId, _id) => {
         }
     })
 }
-const updateClientReply = async ({ _id, clientId }) => {
+const updateClientReply = async ({ _id, message, sender }) => {
   try {
     const result = await TicketSchema.findOneAndUpdate(
-      { _id , clientId},
+      { _id },
       {
-        status: "Closed",
+        status: "Pending operator response",
+        $push : {
+          conversations : {message, sender}
+        }
         
       },
       { new: true }
