@@ -23,22 +23,17 @@ router.all("/", (req, res, next) => {
 // Get user profile router
 router.get("/", userAuth, (req, res, next) => {
   // The user object is now available in req.user
-  const { _id, name, company, address, phone, email, refreshJWT, password } =
+  const { _id, name,  email } =
     req.user;
 
   res.json({
     user: {
-      refreshJWT: {
-        token: refreshJWT.token,
-        addedAt: refreshJWT.addedAt,
-      },
+      
       _id,
       name,
-      company,
-      address,
-      phone,
+    
       email,
-      password,
+     
     },
   });
 });

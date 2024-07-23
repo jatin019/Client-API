@@ -22,15 +22,15 @@ Content-Type: application/json
 
 
 ### Get a user profile endpoint 
- GET http://localhost:3001/v1/user
- Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNDgxNTYyLCJleHAiOjE3MjE0ODE2MjJ9.wroftedMGsAqs2HF9yxlXDnUvpi3xrVQD-UprL9fJe0
+#  GET http://localhost:3001/v1/user
+#  Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNDgxNTYyLCJleHAiOjE3MjE0ODE2MjJ9.wroftedMGsAqs2HF9yxlXDnUvpi3xrVQD-UprL9fJe0
 
 
 ## Token routers
 
 ## Get refreshed token
 GET http://localhost:3001/v1/tokens
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNDc4OTA2LCJleHAiOjE3MjQwNzA5MDZ9.zHj4lYNbOUszTbwiqOpQUsHPx7adxIJaoW3S7uEQNvc
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhdmlAZ21haWwuY29tIiwiaWF0IjoxNzIxNzY2MDYzLCJleHAiOjE3MjQzNTgwNjN9.wTeuls-KErBfFkYk42jN0KMx6RIWPID3cBmzeuOWykU
 
 
 ### Password reset request endpoint
